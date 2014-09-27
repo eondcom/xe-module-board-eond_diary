@@ -1,0 +1,77 @@
+<!-- JW플레이어 -->
+<script type="text/javascript" src="./jwplayer/jwplayer.js"></script>
+<script type="text/javascript" src="./jwplayer/jwplayer.html5.js"></script>
+<script type="text/javascript">jwplayer.key="Pp+kuZlm6dQUcG5KsTPIQONOcGb7cwySn4CNTcpr2ho=";</script>
+<!--// JW플레이어 -->
+
+<div class="board_read" style="float: left; width: 500px;">
+	<!-- READ HEADER -->
+	<div class="read_header">
+		<div class="read_date">{zDate($oDocument->getExtraValue(1), "Y.m.d")}</div>
+		<h1 class="read_title">
+			{$oDocument->getTitle()}
+			<!-- 
+			<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" class="category none" cond="$module_info->use_category=='Y'">{$category_list[$oDocument->get('category_srl')]->title}</a>
+			<a href="{$oDocument->getPermanentUrl()}"></a>
+			 -->
+		</h1>
+		<!--@if($oDocument->getExtraValue(2))-->
+		<div class="read_lesson">{$oDocument->getExtraValue(2)}</div><!-- “ ” -->
+		<!--@end-->
+	</div>
+	<!-- /READ HEADER -->
+
+	<!-- READ BODY -->
+	<div class="read_body">
+		<!-- 동영상 -->
+		<div id="myElement2" cond="$oDocument->getExtraValue(4)">Loading the player...</div>
+		<script type="text/javascript">
+			jwplayer("myElement2").setup({
+				file: "{$oDocument->getExtraValue(4)}",
+				//image: "/uploads/myPoster.jpg",
+				width: 450,
+				height: 320,
+				autostart: 'true'
+			});
+		</script>
+		<!--/동영상 -->
+
+		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+		<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+			<p><label for="cpw">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
+			<p><input type="password" name="password" id="cpw" class="iText" /><input type="submit" value="{$lang->cmd_input}" class="btn" />
+			</p>
+		</form>
+		<!--@else-->
+		<p cond="$oDocument->getExtraValue(4)"></p>
+		{$oDocument->getContent(false)}
+		<!--@end-->
+
+		<!-- 음악 -->
+		<div id="myElement" cond="$oDocument->getExtraValue(3)">Loading the player...</div>
+		<script type="text/javascript">
+			jwplayer("myElement").setup({
+				file: "{$oDocument->getExtraValue(3)}",
+				//image: "/uploads/myPoster.jpg",
+				width: 450,
+				height: 40,
+				autostart: 'true'
+			});
+		</script>
+		<!--/음악 -->
+	</div>
+	<!-- /READ BODY -->
+	
+		<div class="btnArea"> 
+			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a>
+			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
+			
+		</div>
+	</div>
+	<!-- /READ FOOTER -->
+	<include target="_comment.html" />
+</div>
+

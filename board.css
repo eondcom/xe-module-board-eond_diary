@@ -1,0 +1,98 @@
+@import url(http://fonts.googleapis.com/css?family=Tangerine:700);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.end_player .board_read .read_header .read_date {font-family: 'Tangerine', cursive;font-size:24px;color: #000;}
+.end_player .board_read .read_header .read_title {margin:0; padding:10px; font-family: 'nanum gothic'; font-size: 15px; font-weight: bold; color: #111; }
+.end_player .board_read .read_header .read_lesson {border: 1px solid #E6E5D7; background: #FCFBEB url('./img/PrayerWordMemVer_01.gif') -1px -1px no-repeat; width: 428px;padding: 25px 10px 10px 10px;font-family: 'nanum gothic'; font-size: 13px; color: #111;margin: 10px auto;}
+.end_player .board_read .read_body {padding: 10px;text-indent:1em;font-size: 13pt; font-family: 'nanum gothic'; }
+.end_player .board_read .read_body p {line-height: 27px;color: #4b4b4b;}
+
+
+.end_player .feedback {border: 0px solid red;width: 500px;}
+.end_player #comment {}
+
+.read_comment {border: 1px solid #EFEFEF !important; background: #F7f7f7; overflow: hidden; width: 490px !important; box-sizing: border-box; padding: 10px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; -ms-border-radius:5px;}
+
+.read_comment .fbMeta {clear: both; border: 0px solid red;overflow: hidden;}
+.read_comment .fbMeta .author {float: left;border: 0px solid red;margin:0;padding:0;}
+.read_comment .fbMeta .time {float: left;border: 0px solid red;margin:0;padding:0 5px;color: #AAA; font: normal 10px tahoma;line-height: 20px;}
+.read_comment .fbMeta .action {float: right;border: 0px solid red;margin:0;padding:0;}
+.read_comment .fbMeta .action a {text-decoration: none;color: #aaa;font: normal 11px 'dotum';}
+.read_comment .fbMeta .action a:hover {text-decoration: underline; color: #333;}
+.read_comment .comment_content {clear: both;border-bottom: 1px solid #EEE; padding: 10px 0 20px 0;margin-bottom: 5px;}
+
+
+/* 댓글창 */
+.read_comment .xeTextEditor .iTextArea {border: 1px solid #EEEEEE;}
+/* 글목록 */
+.end_player .book .body {overflow: hidden;}
+.end_player .book .body .border_left {width: 560px; padding: 10px 0 15px 50px; box-sizing: border-box;border: 0px solid red;}
+.end_player .book .body .content {}
+.end_player .book .body .border_right {float: left; width: 270px;padding-left: 40px;overflow: hidden;border: 0px solid red;padding-right:0;}
+.end_player .book .body .border_right .list_box {height: 600px; overflow-y: auto;border: 0px solid red;}
+.end_player .book .body .border_right .list_box h3.title {border: 0px solid red;margin:0;padding:40px 20px 30px 20px;font:bold 15px 'nanum gothic';}
+.end_player .book .body .border_right .list {border-top: 1px solid #ECECEC;border-bottom: 1px solid #ECECEC;padding: 10px;border-left: 1px solid white; border-right: 1px solid white;clear: both;}
+.end_player .book .body .border_right .list:hover {border: 1px solid #7CD740; background: #FBFAF1;}
+.end_player .book .body .border_right .list .date {display: block; font: bold 10px 'verdana';color: #B9B9B9; clear: both;}
+.end_player .book .body .border_right .list .title {clear: both;}
+.end_player .book .body .border_right .list .title a {font: normal 12px 'malgun gothic';text-decoration: none; color: #777777;}
+.end_player .book .body .border_right .list .title a:hover {text-decoration: underline; color: #999999;}
+.end_player .book .body .border_right .list .checkbox {}
+
+
+
+/* 카테고리 */
+.board_cat {vertical-align: top;border: 0px solid red;width: 67px;}
+.board_cat .cTab {float: right; margin:0;padding:0;}
+.board_cat .cTab li {list-style-type: none; margin:0; padding:0;border: 0px solid red;overflow: hidden;font-family: 'nanum gothic'}
+.board_cat .cTab li a,
+.board_cat .cTab li img {margin:0; padding:0;float: left;}
+
+/* 글쓰기 */
+/* Board Write */
+/* write_form.html */
+.board_write{background:url(bgHeader.gif) no-repeat 0 0}
+.write_header{padding:9px 10px 9px 10px;background:url(bgHeader.gif) no-repeat right 0}
+.write_header *{vertical-align:middle}
+.write_header select{height:23px;width:140px;padding:0}
+.write_header .iText{width:360px;margin:0 10px 0 0;background:#fff}
+.write_editor .xd{margin-top:-3px}
+.write_footer{overflow:hidden;margin:1em 0}
+.write_footer:after{content:"";display:block;clear:both}
+.write_footer .btnArea{float:right;margin:0}
+.write_option{margin:0 0 1em 0}
+.write_option label{margin:0 10px 0 0}
+/* Extra Form */
+.exForm{background:#fff;padding:10px 0}
+.exForm table{border:0;width:100%}
+.exForm caption{text-align:right;font-size:11px;padding:0 0 2px 0}
+.exForm th,
+.exForm td{border:0;vertical-align:top;border-top:1px solid #ddd}
+.exForm th{color:#333;text-align:left;padding:10px 5px 15px 5px;white-space:nowrap}
+.exForm th label{cursor:default}
+.exForm td{color:#666;padding:8px 10px}
+.exForm em{font-style:normal;color:#f60}
+.exForm .text,
+.exForm .homepage,
+.exForm .email_address,
+.exForm .tel,
+.exForm .address,
+.exForm .date{padding:3px 4px;margin:0 4px 0 0;height:14px;line-height:14px;vertical-align:top;border:1px solid #A6A6A6;border-right-color:#D8D8D8;border-bottom-color:#D8D8D8}
+.exForm .text,
+.exForm .email_address,
+.exForm .homepage,
+.exForm .address{width:300px}
+.exForm .tel{width:40px}
+.exForm .date{width:120px}
+.exForm textarea{width:90%;padding:3px 4px;margin:0 4px 0 0;vertical-align:top;border:1px solid #A6A6A6;border-right-color:#D8D8D8;border-bottom-color:#D8D8D8}
+.exForm p{margin:5px 0 0 0;font-size:11px}
+.exForm ul{margin:0;padding:0;list-style:none}
+.exForm li{display:inline}
+.exForm li input{width:13px;height:13px;margin:0 4px 0 0;vertical-align:middle}
+.exForm li label{margin:0 15px 0 0}
+.exOut{background:#fff;padding:10px 0}
+.exOut table{border:0;width:100%}
+.exOut th,
+.exOut td{border:0;vertical-align:top;border-bottom:1px solid #ddd;padding:8px 15px}
+.exOut th{color:#333;text-align:left;white-space:nowrap}
+.exOut td{color:#666;width:100%}

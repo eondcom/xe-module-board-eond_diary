@@ -1,0 +1,142 @@
+<style type="text/css">
+.border {border: 1px solid red;}
+.border_red {border: 1px solid red;}
+.border_black {border: 1px solid black;}
+.border_green {border: 1px solid green;}
+#content {width: 95%;} 
+#widget,
+#sidemenu {border: 1px solid red;display: none}
+
+.end_player {border: 0px solid red; overflow: hidden;}
+.end_player .header {overflow: hidden;} /* overflow는 빼도 될 것 같음. */
+
+.end_player .header .setting {overflow: hidden; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; padding-top: 10px;}
+.end_player .header .setting .title_area {float: left;}
+.end_player .header .setting .conf_area {float: right;padding-right: 50px;padding-top: 40px;}
+
+.end_player .header .cover {clear: both; background: url('{$tpl_path}/img/bg_header_top.png');overflow: hidden;}
+.end_player .header .cover .border_left {float: left; width: 40px; height: 40px; background: url('{$tpl_path}/img/bg_header_left.png')}
+.end_player .header .cover .border_top {float: left; height: 40px; line-height: 40px;}
+.end_player .header .cover .border_right {float: right; width: 40px; height: 40px; background: url('{$tpl_path}/img/bg_header_right.png')}
+
+
+.end_player .header .cover .border_top .title_month {float: right;}
+.end_player .header .cover .border_top .title_month li {float: left; list-style-type: none; padding: 0px; display: inline-block; width: 25px;}
+.end_player .header .cover .border_top .title_month a {text-decoration: none;display: block;padding: 5px;font-style: italic; font-family: georgia; color: #000;}
+.end_player .header .cover .border_top .title_month a:hover {font-weight: bold;}
+
+.end_player .book .top {clear: both; background: url('{$tpl_path}/img/bg_booklayout_top.gif') no-repeat ;overflow: hidden;}
+.end_player .book .top .border_left {float: left; width: 550px; height: 53px; }
+.end_player .book .top .border_right {float: right; width: 350px; height: 53px;}
+.end_player .book .top .border_top {}
+.end_player .book .top .title_cat {border: 0px solid red;padding: 30px;font: bold 12pt 'malgun gothic';line-height: 40px;}
+.end_player .book .top .title_month {background: url('{$tpl_path}/img/ico_month.gif') 0 6px no-repeat;padding-left: 20px;border: 0px solid red; overflow: hidden;margin-top: 10px; }
+.end_player .book .top .title_month li {float: left; list-style-type: none; padding: 0px; display: inline-block; width: 22px;letter-spacing: -1px;}
+.end_player .book .top .title_month a {text-decoration: none;display: block;padding: 5px;font-style: italic; font-family: georgia; color: #000;}
+.end_player .book .top .title_month a:hover {font-weight: bold;}
+
+
+.end_player .book .body {background: url('{$tpl_path}/img/bg_booklayout_body.gif') repeat-y ;}
+
+
+.end_player .book .bottom {clear: both; background: url('{$tpl_path}/img/bg_booklayout_bottom.gif') no-repeat ;overflow: hidden;}
+.end_player .book .bottom .border_left {float: left; width: 550px; height: 40px; }
+.end_player .book .bottom .border_bottom {}
+.end_player .book .bottom .border_right {float: right; width: 350px; height: 40px; }
+
+
+
+</style>
+
+<load target="board.css" />
+<load target="board.default.js" type="body" />
+
+<!--@if($order_type == "desc")-->
+    {@ $order_type = "asc"; }
+<!--@else-->
+    {@ $order_type = "desc"; }
+<!--@end-->
+
+<block cond="!$module_info->duration_new = (int)$module_info->duration_new">{@ $module_info->duration_new = 12 }</block>
+{@ $cate_list = array(); $current_key = null; }
+<!--@foreach($category_list as $key=>$val)-->
+	<!--@if(!$val->depth)-->
+		{@
+			$cate_list[$key] = $val;
+			$cate_list[$key]->children = array();
+			$current_key = $key;
+		}
+	<!--@elseif($current_key)-->
+		{@ $cate_list[$current_key]->children[] = $val }
+	<!--@end-->
+<!--@end-->
+
+<!-- s: player_cover -->
+<div class="end_player">
+
+<!-- s: header -->
+<div class="header">
+	<div class="setting">
+		<div class="title_area">
+			<span><a href="{$mid}"><img src="{$tpl_path}img/PrayerWordTitle.gif" alt="{$module_info->browser_title}"></a></span>
+			<span>{$module_info->header_text}</span>
+		</div>
+		<div class="conf_area">
+			<div class="search none">
+				<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
+					<input type="hidden" name="vid" value="{$vid}" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="category" value="{$category}" />
+					<select name="search_target">
+						<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+					</select>
+					<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" class="iText" />
+					<button type="submit" class="btn" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
+					<a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
+				</form>
+			</div>
+			<div class="btn_conf">
+			<block cond="$module_info->title_image || $grant->manager"> 
+				<a href="{$mid}"><img src="{$tpl_path}/img/btn_list.gif" alt="{$module_info->browser_title}"></a>
+				<a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="{$tpl_path}/img/btn_add.gif" alt="{$lang->cmd_write}"></a>
+				<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="{$tpl_path}/img/btn_del.gif" alt="{$lang->cmd_manage_document}"></a>
+				<a cond="$grant->manager" class="setup" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><img src="{$tpl_path}/img/btn_set.gif" alt="{$lang->cmd_setup}"></a>
+				<h2 cond="$module_info->title_image" class="none"><a href="{getUrl('','mid',$mid)}"><img src="{$module_info->title_image}" alt="{$module_info->title_alt}" /></a></h2>
+			</block>
+				<!--@if($is_logged)-->
+				<a href="{getUrl('act','dispMemberLogout')}" class="login_btn"><strong>{$lang->cmd_logout}</strong></a>
+				<!--@else-->
+				<a href="{getUrl('act','dispMemberLoginForm')}"><img src="./img/ico_login.png" alt="{$lang->cmd_login}" title="로그인하기" class="login_btn" /></a>
+				<!--@end-->
+				
+
+			</div>
+			
+		</div>
+	</div>
+	<div class="cover none">
+		<div class="border_left"></div>
+		<div class="border_top">
+			<div class="title_cat"><span>주님을 첫째로 높이자 (원래 이 자리는 카테고리명이 들어감)</span></div>
+			<div class="title_month">
+				<ul><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}">{$mon}</a></li></ul>
+			</div>
+		</div>
+		<div class="border_right"></div>
+	</div>
+</div>
+<!-- e: header -->
+
+	
+
+
+<div class="book">
+	<div class="top">
+		<div class="border_left"><span class="title_cat"><!--@if($cate_list)-->{$cate_list[$oDocument->get('category_srl')]->title}<!--@end--><!-- $category_list[$oDocument->get('category_srl')]->title --></span></div>
+		<div class="border_right"><ul class="title_month"><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}">{$mon}</a></li></ul></div>
+	</div>
+	<div>
+		<table cellpadding="0" cellspacing="0" border="0" class="body">
+		<tr>
+		<td class="border_left" valign="top">
+		

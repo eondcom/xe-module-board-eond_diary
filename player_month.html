@@ -1,0 +1,14 @@
+<style type="text/css">
+.month {overflow: hidden;}
+.month li {float: left; list-style-type: none; padding: 10px;}
+</style>
+<div class="month border">
+<ul>
+<li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}">{$mon}월</a></li>
+</ul>
+</div>
+
+<!-- 
+{$getUrl}/?mid={$mid}&search_keyword={date('Ym')}						&search_target=extra_vars1&sort_index=day&order_type=desc&document_srl={$oDocument->document_srl}
+{$getUrl}/?mid={$mid}&search_keyword={date('Y')}{sprintf('%02d', $mon)}	&search_target=extra_vars1&sort_index=day&order_type=desc&document_srl={$oDocument->document_srl}
+-->
