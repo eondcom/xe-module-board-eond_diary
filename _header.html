@@ -1,5 +1,5 @@
 <style type="text/css">
-.border {border: 1px solid red;}
+/* .border {border: 1px solid red;} */
 .border_red {border: 1px solid red;}
 .border_black {border: 1px solid black;}
 .border_green {border: 1px solid green;}
@@ -34,6 +34,7 @@
 .end_player .book .top .title_month li {float: left; list-style-type: none; padding: 0px; display: inline-block; width: 22px;letter-spacing: -1px;}
 .end_player .book .top .title_month a {text-decoration: none;display: block;padding: 5px;font-style: italic; font-family: georgia; color: #000;}
 .end_player .book .top .title_month a:hover {font-weight: bold;}
+.end_player .book .top .title_month .on {font-weight: bold;}
 
 
 .end_player .book .body {background: url('{$tpl_path}/img/bg_booklayout_body.gif') repeat-y ;}
@@ -97,19 +98,18 @@
 			</div>
 			<div class="btn_conf">
 			<block cond="$module_info->title_image || $grant->manager"> 
-				<a href="{$mid}"><img src="{$tpl_path}/img/btn_list.gif" alt="{$module_info->browser_title}"></a>
-				<a href="{getUrl('act','dispBoardWrite','document_srl','')}"><img src="{$tpl_path}/img/btn_add.gif" alt="{$lang->cmd_write}"></a>
-				<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><img src="{$tpl_path}/img/btn_del.gif" alt="{$lang->cmd_manage_document}"></a>
-				<a cond="$grant->manager" class="setup" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><img src="{$tpl_path}/img/btn_set.gif" alt="{$lang->cmd_setup}"></a>
-				<h2 cond="$module_info->title_image" class="none"><a href="{getUrl('','mid',$mid)}"><img src="{$module_info->title_image}" alt="{$module_info->title_alt}" /></a></h2>
+				<a href="{$mid}"><i class="fa fa-comment-o"></i> {$module_info->browser_title}</a>
+				<a href="{getUrl('act','dispBoardWrite','document_srl','')}"><i class="fa fa-edit"></i> {$lang->cmd_write}</a>
+				<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><i class="fa fa-eraser"></i> {$lang->cmd_manage_document}</a>
+				<a cond="$grant->manager" class="setup" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="fa fa-cog"></i> {$lang->cmd_setup}</a>
+				<h2 cond="$module_info->title_image"><a href="{getUrl('','mid',$mid)}">df<img src="{$module_info->title_image}" alt="{$module_info->title_alt}" /></a></h2>
+			
 			</block>
-				<!--@if($is_logged)-->
-				<a href="{getUrl('act','dispMemberLogout')}" class="login_btn"><strong>{$lang->cmd_logout}</strong></a>
+			<!--@if($is_logged)-->
+				<a href="{getUrl('act','dispMemberLogout')}" class="login_btn"><i class="fa fa-sign-out"></i> {$lang->cmd_logout}</a>
 				<!--@else-->
-				<a href="{getUrl('act','dispMemberLoginForm')}"><img src="./img/ico_login.png" alt="{$lang->cmd_login}" title="로그인하기" class="login_btn" /></a>
-				<!--@end-->
-				
-
+				<a href="{getUrl('act','dispMemberLoginForm')}"><i class="fa fa-sign-in"></i> {$lang->cmd_login}</a>
+			<!--@end-->
 			</div>
 			
 		</div>
@@ -129,11 +129,13 @@
 
 	
 
-
 <div class="book">
 	<div class="top">
+	{@
+        $catTitle = $cate_list[$category]->title;          
+	}
 		<div class="border_left"><span class="title_cat"><!--@if($cate_list)-->{$cate_list[$oDocument->get('category_srl')]->title}<!--@end--><!-- $category_list[$oDocument->get('category_srl')]->title --></span></div>
-		<div class="border_right"><ul class="title_month"><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}">{$mon}</a></li></ul></div>
+		<div class="border_right"><ul class="title_month"><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}"{@ $chkMonth = date("Y").sprintf('%02d', $mon);} <!--@if($search_keyword==$chkMonth)-->class="on"<!--@end-->>{$mon}</a></li></ul></div>
 	</div>
 	<div>
 		<table cellpadding="0" cellspacing="0" border="0" class="body">

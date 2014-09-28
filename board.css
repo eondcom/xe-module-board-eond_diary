@@ -1,6 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Tangerine:700);
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
+.none{display:none}
 .end_player .board_read .read_header .read_date {font-family: 'Tangerine', cursive;font-size:24px;color: #000;}
 .end_player .board_read .read_header .read_title {margin:0; padding:10px; font-family: 'nanum gothic'; font-size: 15px; font-weight: bold; color: #111; }
 .end_player .board_read .read_header .read_lesson {border: 1px solid #E6E5D7; background: #FCFBEB url('./img/PrayerWordMemVer_01.gif') -1px -1px no-repeat; width: 428px;padding: 25px 10px 10px 10px;font-family: 'nanum gothic'; font-size: 13px; color: #111;margin: 10px auto;}

@@ -16,6 +16,7 @@
 		<input cond="!$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" />
 		<input cond="$grant->manager" type="checkbox" name="is_notice" value="Y" class="iCheck" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
 		<label cond="$grant->manager" for="is_notice">{$lang->notice}</label>
+		<div style="float:right"><input type="submit" value="{$lang->cmd_registration}" class="btn" /> </div>
 	</div>
     <div class="exForm" cond="count($extra_keys)">
 		<table cond="count($extra_keys)" border="0" cellspacing="0" summary="Extra Form">
@@ -23,6 +24,7 @@
 			<tr loop="$extra_keys=>$key,$val">
 				<th scope="row"><em cond="$val->is_required=='Y'">*</em> {$val->name}</th>
 				<td>{$val->getFormHTML()}</td>
+                 
 			</tr>
 		</table>
 	</div>
