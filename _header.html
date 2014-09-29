@@ -1,57 +1,12 @@
-<style type="text/css">
-/* .border {border: 1px solid red;} */
-.border_red {border: 1px solid red;}
-.border_black {border: 1px solid black;}
-.border_green {border: 1px solid green;}
-#content {width: 95%;} 
-#widget,
-#sidemenu {border: 1px solid red;display: none}
-
-.end_player {border: 0px solid red; overflow: hidden;}
-.end_player .header {overflow: hidden;} /* overflow는 빼도 될 것 같음. */
-
-.end_player .header .setting {overflow: hidden; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; padding-top: 10px;}
-.end_player .header .setting .title_area {float: left;}
-.end_player .header .setting .conf_area {float: right;padding-right: 50px;padding-top: 40px;}
-
-.end_player .header .cover {clear: both; background: url('{$tpl_path}/img/bg_header_top.png');overflow: hidden;}
-.end_player .header .cover .border_left {float: left; width: 40px; height: 40px; background: url('{$tpl_path}/img/bg_header_left.png')}
-.end_player .header .cover .border_top {float: left; height: 40px; line-height: 40px;}
-.end_player .header .cover .border_right {float: right; width: 40px; height: 40px; background: url('{$tpl_path}/img/bg_header_right.png')}
-
-
-.end_player .header .cover .border_top .title_month {float: right;}
-.end_player .header .cover .border_top .title_month li {float: left; list-style-type: none; padding: 0px; display: inline-block; width: 25px;}
-.end_player .header .cover .border_top .title_month a {text-decoration: none;display: block;padding: 5px;font-style: italic; font-family: georgia; color: #000;}
-.end_player .header .cover .border_top .title_month a:hover {font-weight: bold;}
-
-.end_player .book .top {clear: both; background: url('{$tpl_path}/img/bg_booklayout_top.gif') no-repeat ;overflow: hidden;}
-.end_player .book .top .border_left {float: left; width: 550px; height: 53px; }
-.end_player .book .top .border_right {float: right; width: 350px; height: 53px;}
-.end_player .book .top .border_top {}
-.end_player .book .top .title_cat {border: 0px solid red;padding: 30px;font: bold 12pt 'malgun gothic';line-height: 40px;}
-.end_player .book .top .title_month {background: url('{$tpl_path}/img/ico_month.gif') 0 6px no-repeat;padding-left: 20px;border: 0px solid red; overflow: hidden;margin-top: 10px; }
-.end_player .book .top .title_month li {float: left; list-style-type: none; padding: 0px; display: inline-block; width: 22px;letter-spacing: -1px;}
-.end_player .book .top .title_month a {text-decoration: none;display: block;padding: 5px;font-style: italic; font-family: georgia; color: #000;}
-.end_player .book .top .title_month a:hover {font-weight: bold;}
-.end_player .book .top .title_month .on {font-weight: bold;}
-
-
-.end_player .book .body {background: url('{$tpl_path}/img/bg_booklayout_body.gif') repeat-y ;}
-
-
-.end_player .book .bottom {clear: both; background: url('{$tpl_path}/img/bg_booklayout_bottom.gif') no-repeat ;overflow: hidden;}
-.end_player .book .bottom .border_left {float: left; width: 550px; height: 40px; }
-.end_player .book .bottom .border_bottom {}
-.end_player .book .bottom .border_right {float: right; width: 350px; height: 40px; }
-
-
-
-</style>
-
-<load target="board.css" />
-<load target="board.default.js" type="body" />
-
+<load target="./css/board.css" />
+<load target="./js/board.default.js" type="body" />
+<!-- 카테고리 표시 쿼리 -->
+{@
+$oDB = &DB::getInstance();
+$syntax = "SELECT title, content, document_srl  FROM xe_documents WHERE category_srl = 493 AND document_srl IN (SELECT document_srl FROM xe_document_extra_vars WHERE value = ".date('Ymd').")";
+$query = $oDB->_query($syntax);
+$result = $oDB->_fetch($query);
+}
 <!--@if($order_type == "desc")-->
     {@ $order_type = "asc"; }
 <!--@else-->
@@ -78,10 +33,8 @@
 <!-- s: header -->
 <div class="header">
 	<div class="setting">
-		<div class="title_area">
-			<span><a href="{$mid}"><img src="{$tpl_path}img/PrayerWordTitle.gif" alt="{$module_info->browser_title}"></a></span>
-			<span>{$module_info->header_text}</span>
-		</div>
+
+
 		<div class="conf_area">
 			<div class="search none">
 				<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
@@ -97,13 +50,13 @@
 				</form>
 			</div>
 			<div class="btn_conf">
-			<block cond="$module_info->title_image || $grant->manager"> 
+			<block cond="$module_info->title_image || $grant->manager">
 				<a href="{$mid}"><i class="fa fa-comment-o"></i> {$module_info->browser_title}</a>
 				<a href="{getUrl('act','dispBoardWrite','document_srl','')}"><i class="fa fa-edit"></i> {$lang->cmd_write}</a>
 				<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" onclick="popopen(this.href,'manageDocument'); return false;"><i class="fa fa-eraser"></i> {$lang->cmd_manage_document}</a>
 				<a cond="$grant->manager" class="setup" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="fa fa-cog"></i> {$lang->cmd_setup}</a>
 				<h2 cond="$module_info->title_image"><a href="{getUrl('','mid',$mid)}">df<img src="{$module_info->title_image}" alt="{$module_info->title_alt}" /></a></h2>
-			
+
 			</block>
 			<!--@if($is_logged)-->
 				<a href="{getUrl('act','dispMemberLogout')}" class="login_btn"><i class="fa fa-sign-out"></i> {$lang->cmd_logout}</a>
@@ -111,28 +64,54 @@
 				<a href="{getUrl('act','dispMemberLoginForm')}"><i class="fa fa-sign-in"></i> {$lang->cmd_login}</a>
 			<!--@end-->
 			</div>
-			
+
+		</div>
+		<div class="title_area">
+			<h1><i class="bg_color"></i><a href="{$mid}">{$module_info->browser_title}</a></h1>
+			<h2><i class="bg_color"></i>{$module_info->header_text}</h2>
 		</div>
 	</div>
-	<div class="cover none">
-		<div class="border_left"></div>
-		<div class="border_top">
-			<div class="title_cat"><span>주님을 첫째로 높이자 (원래 이 자리는 카테고리명이 들어감)</span></div>
-			<div class="title_month">
-				<ul><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}">{$mon}</a></li></ul>
-			</div>
-		</div>
-		<div class="border_right"></div>
-	</div>
+
 </div>
 <!-- e: header -->
 
-	
+
+<div class="board_cate">
+
+<ul class="cTab" cond="$module_info->use_category=='Y'">
+	<li class="on"|cond="!$category"><a href="{getUrl('category','','document_srl','')}"><i class="fa fa-mail-reply"></i><span class="">{$lang->total}</span></a></li>
+	<li loop="$cate_list=>$key,$val" class="on"|cond="$category==$val->category_srl">
+
+			{@
+            $syntaxTab = "SELECT document_srl  FROM xe_documents WHERE category_srl = ".$val->category_srl." AND document_srl IN (SELECT document_srl FROM xe_document_extra_vars WHERE value = ".date('Ymd').")";
+            $queryTab = $oDB->_query($syntaxTab);
+            $resultTab = $oDB->_fetch($queryTab);
+            }
+	<a href="{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$oDocument->document_srl}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
+	<!--  -->
+	<!--
+	{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$oDocument->document_srl}
+	{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$resultTab->document_srl}&search_keyword={htmlspecialchars($search_keyword)}&search_target=extra_vars1&sort_index=extra_vars1&order_type=desc
+	{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$oDocument->document_srl}&search_keyword={htmlspecialchars($search_keyword)}&search_target=extra_vars1&sort_index=extra_vars1&order_type=desc
+	{getUrl(category,$val->category_srl,'document_srl','', 'page', '')}
+	{geturl(category,$val->category_srl,document_srl,$oDocument->document_srl,search_keyword,$search_keyword,search_target,extra_vars1,sort_index,extra_vars1)}
+	{$getUrl}/index.php?mid={$mid}&document_srl={$oDocument->document_srl}
+	-->
+		<ul cond="count($val->children)">
+			<li loop="$val->children=>$idx,$item" class="on_"|cond="$category==$item->category_srl"><a href="{getUrl(category,$item->category_srl,'document_srl','', 'page', '')}">{$item->title}
+
+
+<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
+		</ul>
+	</li>
+</ul>
+
+</div>
 
 <div class="book">
 	<div class="top">
 	{@
-        $catTitle = $cate_list[$category]->title;          
+        $catTitle = $cate_list[$category]->title;
 	}
 		<div class="border_left"><span class="title_cat"><!--@if($cate_list)-->{$cate_list[$oDocument->get('category_srl')]->title}<!--@end--><!-- $category_list[$oDocument->get('category_srl')]->title --></span></div>
 		<div class="border_right"><ul class="title_month"><li loop="$mon=1;$mon<=12;$mon++"><a href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Y')}{sprintf('%02d', $mon)}"{@ $chkMonth = date("Y").sprintf('%02d', $mon);} <!--@if($search_keyword==$chkMonth)-->class="on"<!--@end-->>{$mon}</a></li></ul></div>
@@ -141,4 +120,4 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="body">
 		<tr>
 		<td class="border_left" valign="top">
-		
+

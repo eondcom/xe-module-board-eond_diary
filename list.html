@@ -1,28 +1,23 @@
 
 <include target="_header.html" />
-{@
-$oDB = &DB::getInstance();
-$syntax = "SELECT title, content, document_srl  FROM xe_documents WHERE category_srl = 493 AND document_srl IN (SELECT document_srl FROM xe_document_extra_vars WHERE value = ".date('Ymd').")";
-$query = $oDB->_query($syntax);
-$result = $oDB->_fetch($query);
-}
+
 
 <block loop="$document_list=>$no,$oDocument">
 	<block cond="!$document_srl==$oDocument->document_srl">
-	<script type="text/javascript">
-	<!--@if($search_keyword)-->
-	location.href="{$getUrl}/index.php?mid={$mid}&search_target=extra_vars1&search_keyword={htmlspecialchars($search_keyword)}&document_srl={$oDocument->document_srl}&sort_index=extra_vars1&order_type=desc"
-	//&sort_index=day&order_type=desc
-	//{getUrl(category,$val->category_srl, 'page', '',document_srl,$oDocument->document_srl,search_keyword,$search_keyword,search_target,extra_vars1)}
-	<!--@else-->
-	location.href="{$getUrl}/index.php?mid={$mid}&document_srl={$oDocument->document_srl}"
-	//location.href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Ym')}"
-	<!--@end-->
-	</script>
-
+		<script type="text/javascript">
+		<!--@if($search_keyword)-->
+		location.href="{$getUrl}/index.php?mid={$mid}&search_target=extra_vars1&search_keyword={htmlspecialchars($search_keyword)}&document_srl={$oDocument->document_srl}&sort_index=extra_vars1&order_type=desc"
+		//&sort_index=day&order_type=desc
+		//{getUrl(category,$val->category_srl, 'page', '',document_srl,$oDocument->document_srl,search_keyword,$search_keyword,search_target,extra_vars1)}
+		<!--@else-->
+		location.href="{$getUrl}/index.php?mid={$mid}&document_srl={$oDocument->document_srl}"
+		//location.href="{$getUrl}/?mid={$mid}&search_target=extra_vars1&search_keyword={date('Ym')}"
+		<!--@end-->
+		</script>
 	</block>
 	<block cond="$document_srl==$oDocument->document_srl"><include target="_read.html" /></block>
 </block>
+
 <!-- http://eond.com/index.php?mid=test_bbs&search_keyword=201402&search_target=extra_vars1&sort_index=extra_vars1&order_type=desc&category=348754&document_srl=348759
 -->
 </td>
@@ -30,63 +25,46 @@ $result = $oDB->_fetch($query);
 <!-- s : book_list -->
 <td class="border_right" valign="top">
 <div class="list_box">
-<h3 class="title">다른 날 목록</h3>
-<!--@if(!$document_list && !$notice_list)-->
-						{$lang->no_documents}
-<!--@else-->
-	<div loop="$document_list=>$no,$document" class="list">
-		<block loop="$list_config=>$key,$val">
-		<span class="date">
-		{$document->getExtraValueHTML($val->idx)}
-		</span>
-		<span class="title" cond="$val->type=='title' && $val->idx==-1">
-                    {@
-                    $docSrl = $document->document_srl;
-                    $syntaxCategory = "SELECT category_srl  FROM xe_documents WHERE document_srl=".$docSrl;
-                    $queryCategory = $oDB->_query($syntaxCategory);
-                    $resultCategory = $oDB->_fetch($queryCategory);
-                    $categoryNo = $resultCategory->category_srl;
-                    }
-			<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','','category',$categoryNo)}">
-                    <!--@if($document_srl==$document->document_srl)-->        
-                        <b>> [{$category_list[$categoryNo]->title}] {$document->getTitle()}</b>
-                    <!--@else-->
-                            [{$category_list[$categoryNo]->title}] {$document->getTitle()}
-                    <!--@end-->
-                        </a>
-                    {$document->printExtraImages(60*60*$module_info->duration_new)}
-		</span>
-		</block>
-		<span class="checkbox" cond="$grant->manager">
-		<input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" />
-		</span>
+	<h3 class="title none">나의 하루</h3>
+	<!--@if(!$document_list && !$notice_list)-->
+							{$lang->no_documents}
+	<!--@else-->
+		<div loop="$document_list=>$no,$document" class="list">
+			<div class="title_box">
+				<span class="checkbox" cond="$grant->manager">
+				<input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" />
+				</span>
+				<block loop="$list_config=>$key,$val">
+				<span class="date">
+				{$document->getExtraValueHTML($val->idx)}
+				</span>
+				<span class="title" cond="$val->type=='title' && $val->idx==-1">
+							{@
+							$docSrl = $document->document_srl;
+							$syntaxCategory = "SELECT category_srl  FROM xe_documents WHERE document_srl=".$docSrl;
+							$queryCategory = $oDB->_query($syntaxCategory);
+							$resultCategory = $oDB->_fetch($queryCategory);
+							$categoryNo = $resultCategory->category_srl;
+							}
+							<span class="cat" cond="$category_list[$categoryNo]->title">{$category_list[$categoryNo]->title}</span>
+					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','','category',$categoryNo)}">
+							<!--@if($document_srl==$document->document_srl)-->
+								<b>{$document->getTitle()}</b>
+							<!--@else-->
+								 {$document->getTitle()}
+							<!--@end-->
+								</a>
+							{$document->printExtraImages(60*60*$module_info->duration_new)}
+				</span>
+				</block>
+			</div>
+
+		</div>
+	<!--@end-->
 	</div>
-<!--@end-->
-</div>
 </td>
 <td class="board_cat">
-<ul class="cTab" cond="$module_info->use_category=='Y'">
-	<li class="none on"|cond="!$category"><a href="{getUrl('category','','page','')}" style="padding-left:5px;"><i class="fa fa-mail-reply"></i><span class="none">{$lang->total}</span></a></li>
-	<li loop="$cate_list=>$key,$val" class="on"|cond="$category==$val->category_srl">
-            {@
-            $syntaxTab = "SELECT document_srl  FROM xe_documents WHERE category_srl = ".$val->category_srl." AND document_srl IN (SELECT document_srl FROM xe_document_extra_vars WHERE value = ".date('Ymd').")";
-            $queryTab = $oDB->_query($syntaxTab);
-            $resultTab = $oDB->_fetch($queryTab);
-            }
-	<a href="{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$resultTab->document_srl}&search_keyword={htmlspecialchars($search_keyword)}&search_target=extra_vars1&sort_index=extra_vars1&order_type=desc"><span class="none">{$val->title}</span><img src="{$tpl_path}../../../board/skins/eond_player/cat/{$val->title}.gif"><!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
-	<!-- 
-	{$getUrl}/index.php?mid={$mid}&category={$val->category_srl}&document_srl={$oDocument->document_srl}&search_keyword={htmlspecialchars($search_keyword)}&search_target=extra_vars1&sort_index=extra_vars1&order_type=desc
-	{getUrl(category,$val->category_srl,'document_srl','', 'page', '')} 
-	{geturl(category,$val->category_srl,document_srl,$oDocument->document_srl,search_keyword,$search_keyword,search_target,extra_vars1,sort_index,extra_vars1)}
-	-->
-		<ul cond="count($val->children)">
-			<li loop="$val->children=>$idx,$item" class="on_"|cond="$category==$item->category_srl">1<a href="{getUrl(category,$item->category_srl,'document_srl','', 'page', '')}"><img src="{$item->title}">
 
-
-<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
-		</ul>
-	</li>
-</ul>
 
 
 <include target="_footer.html" />
